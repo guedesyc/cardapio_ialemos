@@ -1,0 +1,92 @@
+montar_proteina_principal_task:
+  description: >
+    Montar o cardápio de proteína principal com 30 pratos de acordo com as regras de restrição e pratos disponíveis
+
+    Feedback do validador (se não tiver acontecido a validação, estará vazio): {feedback}
+
+    cardápio reprovado: {cardapio_anterior}
+  expected_output: >    
+    EXEMPLO DE RETORNO:
+    | Dia | tipo | prato | denominação |  custo per capita | % de consumo | valor final |
+    | --- | ---- | ------|  ---------- | ---------- | ------------ | ----------- |
+    | 1 | principal (fixo) | prato (nome do prato) | nome da denominação | 1,00 | 70% | 0,70 |
+
+validar_montagem_proteina_principal_task:
+  description: >
+    Validar a montagem do cardápio de proteína principal de acordo com as regras de restrição.
+    Analise somente pela denominação, e não pelo prato.
+
+    cardapio principal definido:
+    {cardapio_principal}
+  expected_output: >
+    Aprovação ou reprovação da montagem do cardápio de proteína principal de acordo com as regras de restrição.
+
+    Retorne as palavras APROVADO ou REPROVADO.
+    Além disso, retorne também os feedbacks de reprovação, caso existam.
+
+montar_proteina_opcao_task:
+  description: >
+    Montar Uma tabela com o cardápio de proteína opcao montado de acordo com as regras de restrição para 30 dias seguidos 
+    numerados de 1 a 30. Cada número de dia aparecerá 2 vezes, uma para o prato principal e outra para o prato opção.
+    O % de consumo que some com o % de consumo da proteína principal em 100%
+
+    
+    Cardapio principal definido:
+    {cardapio_principal}
+
+    Feedback do validador (se não tiver acontecido a validação, estará vazio):
+    {feedback}
+
+    
+    cardápio reprovado: {cardapio_anterior}
+  expected_output: > 
+
+    EXEMPLO DE RETORNO:
+    | Dia | tipo | prato | denominação | custo per capita | % de consumo | valor final |
+    | --- | ---- | ------| ----------- | ---------- | ------------ | ----------- |
+    | 1 | principal (fixo) | prato (nome do prato) | nome da denominação | 1,00 | 70% | 0,70 |
+    | 1 | opção (fixo) | prato (nome do prato) | nome da denominação | 0,60 | 30% | 0,25 |
+
+  # context:
+  #   - montar_proteina_principal_task
+
+validar_montagem_proteina_opcao_task:
+  description: >
+    Validar a montagem do cardápio de proteína opcao de acordo com as regras de restrição.
+    Analise somente pela denominação, e não pelo prato.
+
+    cardapio opção definido:
+    {cardapio_completo}
+  expected_output: >
+    Aprovação ou reprovação da montagem do cardápio de proteína opcao de acordo com as regras de restrição.
+
+    Retorne as palavras APROVADO ou REPROVADO.
+    Além disso, retorne também os feedbacks de reprovação, caso existam.
+
+#   agent: validador_montador_proteina_opcao
+#   context:
+#     - montar_proteina_opcao_task
+#     - montar_proteina_principal_task
+
+
+compilador_cardapio_task:
+  description: >
+    Compilar o cardápio de proteína principal e opção em um documento com 60 linhas
+  expected_output: >
+    Um documento com 60 linhas contendo o cardápio de proteína principal e opção no seguinte modelo:
+
+    Cardapio de proteina principal:
+    {cardapio_principal}
+
+    Cardapio de proteina opcao:
+    {cardapio_opcao}
+
+    
+    #EXEMPLO 1:
+    | Dia | tipo | prato | custo per capita | % de consumo | valor final |
+    | --- | ---- | ------| ---------- | ------------ | ----------- |
+    | 1 | principal (fixo) | prato (nome do prato) | 1,00 | 70% | 0,70 |
+    | 1 | opção (fixo) | prato (nome do prato) | 0,60 | 30% | 0,25 |
+  # context:
+  #   - montar_proteina_principal_task
+  #   - montar_proteina_opcao_task

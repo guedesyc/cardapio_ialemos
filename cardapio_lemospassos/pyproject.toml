@@ -1,0 +1,26 @@
+[project]
+name = "cardapio_lemospassos"
+version = "0.1.0"
+description = "cardapio_lemospassos using crewAI"
+authors = [
+    { name = "Your Name", email = "you@example.com" },
+]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "crewai[tools]>=0.95.0,<1.0.0",
+    "chromadb==0.4.24",
+    "onnxruntime==1.14.1"
+]
+
+[project.scripts]
+cardapio_lemospassos = "cardapio_lemospassos.main:run"
+run_crew = "cardapio_lemospassos.main:run"
+train = "cardapio_lemospassos.main:train"
+replay = "cardapio_lemospassos.main:replay"
+test = "cardapio_lemospassos.main:test"
+
+[build-system]
+requires = [
+    "hatchling",
+]
+build-backend = "hatchling.build"
